@@ -39,7 +39,9 @@ class Graph:
         for v in graph[node]:
             if(v == parents[node]):
                 continue
-            cont += traversing_cyclesR(v, node, colors, parents)
+            cont += self.traversing_cyclesR(v, node, colors, parents)
+
+        colors[node] = 2
         
         return cont
         
