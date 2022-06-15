@@ -15,26 +15,34 @@ class Graph:
             print("%s: -> %s" % (i, self.graph[i]))
 
     def traversing_cycles(self):
-        return self.traversing_cyclesR('A')
+        colors = {}
+        parents = {}
+        for v in self.graph:
+            colors[v] = 0 
+        return self.traversing_cyclesR('A', '', colors, parents)
 
-    def traversing_cyclesR(self, node):
+    def traversing_cyclesR(self, node, parent, colors, parents):
         
         cont = 0
-        visited = set()
-        remaining = [node]
 
-        while remaining:
-            current = remaining.pop()
-            visited.add(current)
+        if(colors[node] == 0):
+            return 0
+        
+        if(colors[node] == 1):
+            cont = 1
+        
+        if(parent != ''):
+            parents[node] = parent
+        
+        colors[node] = 1
 
-            for vizinho in self.graph[node]:
-                if vizinho in visited:
-                    cont += 1
-                
-                remaining.append(vizinho)
-                
+        for v in graph[node]:
+            if(v == parents[node]):
+                continue
+            cont += traversing_cyclesR(v, node, colors, parents)
+        
         return cont
-
+        
 if __name__ == "__main__":
     graph = Graph()
     graph.add_edge('A', 'B')
