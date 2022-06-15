@@ -40,15 +40,30 @@ class Graph:
         return cont
 
 if __name__ == "__main__":
-    graph = Graph()
     print("Counting cycles in undirected graph.\n")
-    while True:
-        e1, e2 = input("Input edge (edge A, edge B) (, to escape): ").split(",")
-        if len(e1) == 0:
-            break
-        e1 = e1.strip()
-        e2 = e2.strip()
-        graph.add_edge(e1, e2)
+    op = int(input("1 - Automatic edges insertion\n2 - Manual edges insertion\n0 - Exit\n>>> "))
+    while op != 0:
+        graph = Graph()
+        if op == 1:
+            n = int(input("How many vertex? "))
+            for i in range(0, n):
+                for j in range(i+1, n):
+                    graph.add_edge("e{}".format(i),"e{}".format(j))
+            print("Number of cycles: {}".format(graph.permutation_cycles()))
+            print("Number of comparisons: {}".format(graph.numComparison))
+        elif op == 2:
+            while True:
+                e1, e2 = input("Input edge (edge A, edge B) (, to escape): ").split(",")
+                if len(e1) == 0:
+                    break
+                e1 = e1.strip()
+                e2 = e2.strip()
+                graph.add_edge(e1, e2)
 
-    print("Number of cycles: {}".format(graph.permutation_cycles()))
-    print("Number of comparisons: {}".format(graph.numComparison))
+            print("Number of cycles: {}".format(graph.permutation_cycles()))
+            print("Number of comparisons: {}".format(graph.numComparison))
+        else:
+            print("Invalid operation")
+        op = int(input("1 - Automatic edges insertion\n2 - Manual edges insertion\n0 - Exit\n>>> "))
+
+        
