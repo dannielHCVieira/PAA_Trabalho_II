@@ -17,7 +17,6 @@ class Graph:
             print("%s: -> %s" % (i, self.graph[i]))
 
     def permutation_cycles(self):
-        self.numComparison = 0
         start_time = time.time_ns()
         qtd = self.permutation_cyclesR(self.graph, [])
         end_time = time.time_ns()
@@ -31,13 +30,40 @@ class Graph:
             if(v in perm):
                 if(v == perm[0] and len(perm) > 2):
                     cont += 1
-                self.numComparison += 3
             else:
                 perm.append(v)
                 cont += self.permutation_cyclesR(self.graph[v], perm)
                 perm.pop()
-            self.numComparison += 1
         return cont
+
+    def DFS_cyclesR(self, v, visited, parent):
+        c = 0
+
+        visited[v] = True
+        for i in self.graph[v]:
+            if visited[i] == False:
+                c += self.DFS_cyclesR(i, visited, v)
+
+            elif parent != i:
+                c += 1
+ 
+        return c
+ 
+    def DFS_cycles(self):
+        c = 0
+        self.numComparison = 0
+        start_time = time.time_ns()
+        visited = {}
+        for k in self.graph.keys():
+            visited[k] = False
+ 
+        for k in self.graph.keys():
+            if visited[k] == False:
+                c += self.DFS_cyclesR(k, visited, -1)
+
+        end_time = time.time_ns()
+        print("Time of Execution: {}".format((end_time - start_time) / 10**6))
+        return c
 
 if __name__ == "__main__":
     print("Counting cycles in undirected graph.\n")

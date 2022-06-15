@@ -1,3 +1,6 @@
+from stringprep import c22_specials
+
+
 class Graph:
     def __init__(self):
         self.graph = {}
@@ -35,8 +38,11 @@ class Graph:
             parents[node] = parent
         
         colors[node] = 1
+        print("node ",node)
+        print("Graph ",self.graph[node])
+        print("Parents ",parents)
 
-        for v in graph[node]:
+        for v in self.graph[node]:
             if(v == parents[node]):
                 continue
             cont += self.traversing_cyclesR(v, node, colors, parents)
@@ -44,7 +50,57 @@ class Graph:
         colors[node] = 2
         
         return cont
+
+    def DFSCycle(self):
+        colors = {}
+        parents = {}
+        for v in self.graph:
+            colors[v] = 0
+        return self.DFSCycleR(list(self.graph)[0], '', colors, parents) 
+    
+    def DFSCycleR(self, u, p, color, par):
+        c = 0
+        if color[u] != 2:
+            if color[u] != 1:
+                par[u] = p
+                color[u] = 1
+
+                for v in self.graph[u]:
+                    if v == par[u]:
+                        c += self.DFSCycleR(v, u, color, par) 
+            else:
+                return 1
+        return c
         
+    def DFS_CyclesR(self, v, visited, parent):
+        c = 0
+
+        visited[v] = True
+
+        for i in self.graph[v]:
+            if visited[i] == False:
+                c += self.DFS_CyclesR(i, visited, v)
+
+            elif parent != i:
+                c += 1
+ 
+        return c
+ 
+    def DFS_Cycles(self):
+        c = 0
+
+        visited = {}
+        for k in self.graph.keys():
+            visited[k] = False
+ 
+        for k in self.graph.keys():
+            if visited[k] == False:
+                c += self.DFS_CyclesR(k, visited, -1)
+                """ if(self.DFS_CyclesR
+                   (i, visited, -1)) == True:
+                    return True """
+        return c
+
 if __name__ == "__main__":
     graph = Graph()
     graph.add_edge('A', 'B')
@@ -54,4 +110,4 @@ if __name__ == "__main__":
     graph.add_edge('B', 'D')
     graph.add_edge('C', 'D')
 
-    print(graph.traversing_cycles())
+    print(graph.DFS_Cycles())
