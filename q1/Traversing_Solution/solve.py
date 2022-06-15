@@ -15,7 +15,7 @@ class Graph:
             print("%s: -> %s" % (i, self.graph[i]))
 
     def traversing_cycles(self):
-        return self.traversing_cyclesR(self.graph, 'A')
+        return self.traversing_cyclesR('A')
 
     def traversing_cyclesR(self, node):
         
@@ -23,12 +23,12 @@ class Graph:
         visited = set()
         remaining = [node]
 
-        while remaining
+        while remaining:
             current = remaining.pop()
             visited.add(current)
 
-            for vizinho in self.graph[node]
-                if vizinho in visited
+            for vizinho in self.graph[node]:
+                if vizinho in visited:
                     cont += 1
                 
                 remaining.append(vizinho)
