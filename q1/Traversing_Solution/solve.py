@@ -25,7 +25,7 @@ class Graph:
         
         cont = 0
 
-        if(colors[node] == 0):
+        if(colors[node] == 2):
             return 0
         
         if(colors[node] == 1):
